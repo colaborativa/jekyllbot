@@ -5,9 +5,9 @@ require 'jekyll'
 
 post '/' do
 
-  dir = './tmp/jekyll'
+  dir = './jekyll'
   name = "JekyllBot"
-  email = "ben+bot@balter.com"
+  email = ""
   username = ENV['GH_USER'] || ''
   password = ENV['GH_PASS'] || ''
   
@@ -20,10 +20,10 @@ post '/' do
   end
 
   url = push["repository"]["url"] + ".git"
-  url["https://"] = "https://" + username + ":" + password + "@"
+#  url["https://"] = "https://" + username + ":" + password + "@"
   
   puts "cloning into " + url
-  g = Git.clone(url, dir)  
+  g = Git.clone(url, dir)
    
   options = {}
   options["server"] = false
@@ -46,14 +46,14 @@ post '/' do
   
   puts "succesfully built; commiting..."
   begin
-    g.config('user.name', name)
-    g.config('user.email', email)  
-    puts g.commit_all( "[JekyllBot] Building JSON files")
+#    g.config('user.name', name)
+#    g.config('user.email', email)  
+#    puts g.commit_all( "[JekyllBot] auto-generated changes from previous commit")
   rescue Git::GitExecuteError => e
-    puts e.message
+#    puts e.message
   else
     puts "pushing"
-    puts g.push
+#    puts g.push
     puts "pushed"
   end
   
